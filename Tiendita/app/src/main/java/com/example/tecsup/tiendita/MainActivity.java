@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,8 @@ import java.io.InputStream;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
@@ -25,21 +28,23 @@ import retrofit2.http.Path;
 
 public class MainActivity extends AppCompatActivity {
     TextView resultado;
-    static String API_URL="https://api.github.com";
+    ListView lv;
+    static String API_URL="https://viveyupi.com";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        resultado = findViewById(R.id.textres);
+        //resultado = findViewById(R.id.textres);
+        lv = (ListView) findViewById(R.id.listv);
 
         //probaremos si esta conectado
-        if (isConnected()) {
+        /*if (isConnected()) {
             String r = GET();
             resultado.setText(r);
             Toast.makeText(this, "SI esta conectado", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "NO esta conectado", Toast.LENGTH_SHORT).show();
-        }
+        }*/
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -48,21 +53,36 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         // Create an instance of our GitHub API interface.
-        GitHub github = retrofit.create(GitHub.class);
+        Yupi yupi = retrofit.create(Yupi.class);
 
         // Create a call instance for looking up Retrofit contributors.
-        Call<List<Contributor>> call = github.contributors("square", "retrofit");
+        Call<List<Categoria>> call = yupi.categorias(1);
 
         // Fetch and print a list of the contributors to the library.
-        List<Contributor> contributors = null;
-        try {
-            contributors = call.execute().body();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (Contributor contributor : contributors) {
-            System.out.println(contributor.login + " (" + contributor.contributions + ")");
-        }
+        call.enqueue(new Callback<List<Categoria>>() {
+            @Override
+            public void onResponse(Call<List<Categoria>> call, Response<List<Categoria>> response) {
+                switch(response.code()){
+                    case 200:
+                        List<Categoria> categorias =response.body();
+                            AdapterCategory adapter = new AdapterCategory(getApplicationContext(), categorias);
+                            lv.setAdapter(adapter);
+
+                        break;
+                    case 401:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Categoria>> call, Throwable t) {
+                Log.e("error",t.toString());
+
+            }
+        });
+
     }
     public boolean isConnected(){
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
@@ -73,10 +93,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
 
     }
-
-
-
-
 
     private String GET(){
         String s="{\"nombre\":\"Santiago\",\n"+"\"edad\":\"23\""+"}";
@@ -107,4 +123,11 @@ public class MainActivity extends AppCompatActivity {
                     @Path("owner") String owner,
                     @Path("repo") String repo);
         }
+
+    public interface Yupi {
+        @GET("/api/categorias/nivel/{nivel}/")
+        Call<List<Categoria>> categorias(
+                @Path("nivel") Integer nivel);
+
+    }
 }

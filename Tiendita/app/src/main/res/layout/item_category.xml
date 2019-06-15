@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="450dp"
+    android:background="@android:color/background_light">
+
+    <TextView
+        android:id="@+id/texto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/category"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="66dp"
+        android:text="Texto Frase" />
+
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="39dp"
+        android:text="Titulo Frase"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#f65034"
+        android:textSize="21sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="151dp"
+        android:layout_alignBottom="@+id/texto"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="234dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="1dp"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:maxWidth="592dp"
+        android:maxHeight="280dp"
+        android:src="@drawable/ic_launcher_background" />
+</RelativeLayout>
