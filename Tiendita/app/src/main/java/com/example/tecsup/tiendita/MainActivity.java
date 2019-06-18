@@ -23,7 +23,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public class MainActivity extends AppCompatActivity {
@@ -83,6 +86,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Call<Token> call_login = yupi.login("vendedor","codigotecsup");
+        call_login.enqueue(new Callback<Token>() {
+            @Override
+            public void onResponse(Call<Token> call, Response<Token> response) {
+                switch(response.code()){
+                    case 200:
+                        Token token =response.body();
+                        Log.d("token",token.token);
+                        break;
+                    case 401:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Token> call, Throwable t) {
+                Log.d("e",t.toString());
+            }
+        });
+
     }
     public boolean isConnected(){
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
@@ -129,5 +154,10 @@ public class MainActivity extends AppCompatActivity {
         Call<List<Categoria>> categorias(
                 @Path("nivel") Integer nivel);
 
+        @POST("/api/api-token-auth/")
+        @FormUrlEncoded
+        Call<Token> login(
+                @Field("username") String usr,
+                @Field("password") String pwd);
     }
 }
