@@ -6,7 +6,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -83,8 +88,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getLocationPermission();
         updateLocationUI();
         getDeviceLocation();
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.sereno);
+        final Bitmap bitmap2= resizeimagen(bitmap,50,50);
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                mMap.addMarker(new MarkerOptions().position(latLng).title("Marker Nuevo")
+                        .icon(BitmapDescriptorFactory.fromBitmap(bitmap2)));
+                // mMap.moveCamera(CameraUpdateFactory.newLatLng(nuevo));
+            }
+        });
+
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+
+                mMap.addMarker(new MarkerOptions().position(latLng).title("Marker Nuevo")
+                        .icon(BitmapDescriptorFactory.fromBitmap(bitmap2)));
+            }
+        });
+
 
     }
+
+    public Bitmap resizeimagen (Bitmap imageBitmap,int width, int height){
+        Bitmap resizeBitmap=Bitmap.createScaledBitmap(imageBitmap, width,height,false);
+        return resizeBitmap;
+    }
+
     private void getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
