@@ -3,8 +3,10 @@ package com.example.tecsup.nfc_activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.nfc.tech.Ndef;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +18,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements Listener {
     Button escribir,leer;
     EditText texto;
-    boolean isWrite;
+    boolean isWrite = false;
     NFCWriteFragment nfcWriteFragment;
     private NfcAdapter nfcAdapter;
 
@@ -79,6 +81,25 @@ public class MainActivity extends AppCompatActivity implements Listener {
 
         if (tag!= null){
             Toast.makeText(this,"Se detecto tarjeta",Toast.LENGTH_SHORT).show();
+            Ndef ndef = Ndef.get(tag);
+            if(isWrite){
+                String messageToWrite = texto.getText().toString();
+                nfcWriteFragment = (NFCWriteFragment) getSupportFragmentManager()
+                        .findFragmentByTag(NFCWriteFragment.TAG);
+                nfcWriteFragment.onNfcDetected(ndef,messageToWrite);
+            }
+            else{
+                try {
+                    ndef.connect();
+                    NdefMessage ndefMessage = ndef.getNdefMessage();
+                    String message = new String (ndefMessage.getRecords()[0].getPayload());
+                    Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+                    ndef.close();
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+        }
         }
     }
 }
