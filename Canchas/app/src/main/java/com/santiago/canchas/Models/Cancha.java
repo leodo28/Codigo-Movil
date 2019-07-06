@@ -6,13 +6,23 @@ public class Cancha {
     String direccion;
     Float precio_hora;
     String foto;
+    int cantidad_canchas;
 
-    public Cancha(int id, String nombre, String direccion, Float precio_hora, String foto) {
+    public Cancha(int id, String nombre, String direccion, Float precio_hora, String foto,int cantidad_canchas) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
         this.precio_hora = precio_hora;
         this.foto = foto;
+        this.cantidad_canchas = cantidad_canchas;
+    }
+
+    public int getCantidad_canchas() {
+        return cantidad_canchas;
+    }
+
+    public void setCantidad_canchas(int cantidad_canchas) {
+        this.cantidad_canchas = cantidad_canchas;
     }
 
     public int getId() {

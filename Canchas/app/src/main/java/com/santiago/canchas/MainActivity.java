@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.ListView;
 
 import com.santiago.canchas.Models.Cancha;
+import com.santiago.canchas.Models.Reserva;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
@@ -56,6 +56,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Cancha>> call, Throwable t) {
 
+            }
+        });
+
+        Call<Reserva> registrar=
+                canchaservicios.registrarReserva("2019-06-28","23:59:00",
+                        1,1,1);
+        registrar.enqueue(new Callback<Reserva>() {
+            @Override
+            public void onResponse(Call<Reserva> call, Response<Reserva> response) {
+                Log.e("Codigo cancha",response.code()+"");
+                Log.d("reserva",response.code()+"");
+                switch(response.code()){
+                    case 200:
+                        Reserva reservas = response.body();
+                        Log.d("cancha",reservas.getFecha()+"");
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Reserva> call, Throwable t) {
+                Log.e("Error Cancha",t.getMessage());
             }
         });
     }
