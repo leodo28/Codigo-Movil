@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "153169142954",
+    "firebase_url": "https://notificacionescodigo-bf3a8.firebaseio.com",
+    "project_id": "notificacionescodigo-bf3a8",
+    "storage_bucket": "notificacionescodigo-bf3a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153169142954:android:d44ddd36427f4668",
+        "android_client_info": {
+          "package_name": "com.example.tecsup.iniciofacebook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "153169142954-931gh2kc3i9hi1j0s5678k8gja7lriid.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tecsup.iniciofacebook",
+            "certificate_hash": "fe478b2c8fd90d4138c42251f0bafa488162c9be"
+          }
+        },
+        {
+          "client_id": "153169142954-er7nfpq0idos3jev2008a9293rs33rkb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCEI8Kg0aT0L3xDrFcVclYdVGZh8RsaYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "153169142954-er7nfpq0idos3jev2008a9293rs33rkb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
